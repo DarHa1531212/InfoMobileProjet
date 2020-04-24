@@ -1,6 +1,7 @@
 package com.example.projetsession;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
@@ -33,6 +34,9 @@ public class feedActivity extends Activity {
         setContentView(R.layout.recipe_list);
         adapter = setListAdapter();
         getRecipes(adapter);
+
+        Intent intent = getIntent();
+        String value = intent.getStringExtra("key");
     }
 
     private CustomRecipeAdapter setListAdapter() {
