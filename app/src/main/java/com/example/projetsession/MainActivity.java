@@ -13,11 +13,15 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+<<<<<<< HEAD
 import com.android.volley.NetworkResponse;
+=======
+>>>>>>> master
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+<<<<<<< HEAD
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
@@ -29,6 +33,14 @@ import com.example.projetsession.model.Recipe;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+=======
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.util.Queue;
+>>>>>>> master
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,15 +48,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
-        //idconfirmbutton
-
-        //idConfirm();
     }
 
 
     public void idConfirm(View v){
         Button idButton = (Button) v;
+<<<<<<< HEAD
 
         TextView name = findViewById(R.id.idName);
         TextView password = findViewById(R.id.password);
@@ -71,7 +80,33 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+=======
+        TextView name = findViewById(R.id.idName);
+        TextView password = findViewById(R.id.password);
+>>>>>>> master
 
+        final RequestQueue queue = Volley.newRequestQueue(this);
+
+
+        String url = "http://hansiv4.ddns.net:3000/user/"+name.getText()+"/"+password.getText();
+        Log.i("DIM",url);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i("DIM", "Response: " + response.toString());
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+
+                    }
+                });
+        queue.add(jsonObjectRequest);
 
     }
 
