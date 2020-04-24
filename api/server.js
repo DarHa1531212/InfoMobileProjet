@@ -25,7 +25,7 @@ con.connect();
     console.log("Connected to DB!");
 });*/
 
-app.get('/recettes/', (req, res) => {
+app.get('/recettes', (req, res) => {
 
 
     con.query("SELECT * FROM androidproject.tblrecette;", function (err, result, fields) {

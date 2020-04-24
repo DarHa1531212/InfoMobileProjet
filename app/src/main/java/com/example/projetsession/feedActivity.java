@@ -2,6 +2,7 @@ package com.example.projetsession;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
@@ -19,7 +20,6 @@ import com.example.projetsession.adapter.CustomRecipeAdapter;
 import com.example.projetsession.model.Recipe;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -27,16 +27,19 @@ import java.util.ArrayList;
 public class feedActivity extends Activity {
 
     CustomRecipeAdapter adapter;
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_list);
-        adapter = setListAdapter();
-        getRecipes(adapter);
 
         Intent intent = getIntent();
-        String value = intent.getStringExtra("key");
+        userId = intent.getStringExtra("userId");
+        Log.v("DIM", "user: " + userId);
+
+        adapter = setListAdapter();
+        getRecipes(adapter);
     }
 
     private CustomRecipeAdapter setListAdapter() {
@@ -54,24 +57,27 @@ public class feedActivity extends Activity {
     private void getRecipes(final CustomRecipeAdapter adapter) {
         final ArrayList<Recipe> recipes = new ArrayList<Recipe>();
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://hansiv4.ddns.net:3000/recettes";
-        Log.v("DIM", url);
+        final RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://hansiv4.ddns.net:3000/recettes/" + userId;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try {
-                    Log.v("DIM", response.getString(2));
                     for (int i = 0; i < response.length(); i++) {
                         Recipe tempRecipe = new Recipe();
                         JSONObject recipe = response.getJSONObject(i);
 
                         String title = recipe.getString("nomRecette");
                         String description = recipe.getString("txtRecette");
-                        String encodedImage = recipe.getString("image");
-                        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
-                        tempRecipe.setImage(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
+                        try {
+                            String encodedImage = recipe.getString("image");
+                            byte[] decodedBytes = Base64.decode(encodedImage, Base64.DEFAULT);
+                            Bitmap decodedImage = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                            tempRecipe.setImage(decodedImage);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         tempRecipe.setTitle(title);
                         tempRecipe.setDescription(description);
 
@@ -79,9 +85,8 @@ public class feedActivity extends Activity {
                     }
                     adapter.clear();
                     adapter.addAll(recipes);
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                    Log.v("DIM", e.toString());
                 }
             }
         }, new Response.ErrorListener() {

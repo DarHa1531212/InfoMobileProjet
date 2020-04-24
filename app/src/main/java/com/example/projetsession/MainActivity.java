@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
                                 intent.putExtra("userId", message);
                                 MainActivity.this.startActivity(intent);
                             }
-                                Log.i("","loggedIn");//userId nameValuePairs.loggedIn
                         } catch(Exception e) {
                             e.printStackTrace();
                         }
