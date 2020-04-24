@@ -29,12 +29,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void idConfirm(View v){
+        RequestQueue queue = Volley.newRequestQueue(this);
+
         Button idButton = (Button) v;
         TextView name = findViewById(R.id.idName);
         TextView password = findViewById(R.id.password);
-
-        final RequestQueue queue = Volley.newRequestQueue(this);
-
 
         String url = "http://hansiv4.ddns.net:3000/user/"+name.getText()+"/"+password.getText();
         Log.i("DIM",url);
@@ -51,10 +50,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
-
+                        Log.i("ERROR", error.toString());
                     }
                 });
+
         queue.add(jsonObjectRequest);
+
+
 
     }
 
