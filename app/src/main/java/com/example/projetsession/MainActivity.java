@@ -6,10 +6,13 @@ import android.app.DownloadManager;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.android.volley.Request;
@@ -40,10 +43,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        AutoLogin();
     }
 
 
     public void idConfirm(View v){
+        CallLogin();
+    }
+
+    private void CallLogin() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         TextView name = findViewById(R.id.idName);
@@ -80,9 +89,20 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         queue.add(jsonObjectRequest);
-
-
-
     }
 
+    private void AutoLogin (){
+        EditText myEditText = (EditText)findViewById(R.id.password);
+        myEditText.setOnEditorActionListener(TextView v, int actionId, KeyEvent event); {
+
+        });
+        /*((EditText)findViewById(R.id.password)).setOnFocusChangeListener(new View.OnFocusChangeListener){
+            //@Override
+            public void onFocusChange(View v, boolean hasFocus){
+                if(!hasFocus){
+                    CallLogin();
+                }
+            }
+        }*/
+    }
 }
