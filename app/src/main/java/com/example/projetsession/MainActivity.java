@@ -10,7 +10,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -93,16 +95,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void AutoLogin (){
         EditText myEditText = (EditText)findViewById(R.id.password);
-        myEditText.setOnEditorActionListener(TextView v, int actionId, KeyEvent event); {
-
-        });
-        /*((EditText)findViewById(R.id.password)).setOnFocusChangeListener(new View.OnFocusChangeListener){
-            //@Override
-            public void onFocusChange(View v, boolean hasFocus){
-                if(!hasFocus){
-                    CallLogin();
+        myEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId){
+                    case EditorInfo.IME_ACTION_DONE:
+                        Log.i("DIN", "Action done");
+                        CallLogin();
+                        break;
+                    case EditorInfo.IME_ACTION_NEXT:
+                        Log.i("DIN", "Action next");
+                        break;
+                    case EditorInfo.IME_ACTION_PREVIOUS:
+                        Log.i("DIN", "Action previous");
+                        break;
                 }
+                return false;
             }
-        }*/
+        });
     }
 }
