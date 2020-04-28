@@ -28,6 +28,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity android:name=".recipeActivity"
+            android:parentActivityName=".feedActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".feedActivity"/>
+        </activity>
     </application>
 
 </manifest>

@@ -18,11 +18,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import okhttp3.Headers;
-import okhttp3.MultipartBody;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-
 public class preferences extends AppCompatActivity {
 
     @Override
@@ -45,25 +40,6 @@ public class preferences extends AppCompatActivity {
         boolean cakeIsOn = cake.isChecked();
         boolean soupIsOn = soup.isChecked();
         boolean crepeIsOn = crepe.isChecked();
-        RequestBody myRequest = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("cake", String.valueOf(cakeIsOn))
-                .addFormDataPart("soup", String.valueOf(soupIsOn))
-                .addFormDataPart("crepe", String.valueOf(crepeIsOn))
-                .build();
-
-        Request request = new Request.Builder()
-                .url("http://hansiv4.ddns.net:3000/")
-                .post(myRequest)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            Headers responseHeaders = response.headers();
-            for (int i = 0; i < responseHeaders.size(); i++) {
-                System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-            }
 
 
         //String url = "http://hansiv4.ddns.net:3000/user/"+name.getText()+"/"+password.getText();
