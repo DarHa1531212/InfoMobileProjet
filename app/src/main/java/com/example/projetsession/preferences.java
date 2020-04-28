@@ -17,6 +17,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.Headers;
 import okhttp3.MultipartBody;
@@ -25,10 +27,15 @@ import okhttp3.RequestBody;
 
 public class preferences extends AppCompatActivity {
 
+    String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
+
+        Intent intent = getIntent();
+        userId = intent.getStringExtra("userId");
+
     }
 
     private void updateProfile(){
@@ -45,31 +52,45 @@ public class preferences extends AppCompatActivity {
         boolean cakeIsOn = cake.isChecked();
         boolean soupIsOn = soup.isChecked();
         boolean crepeIsOn = crepe.isChecked();
-        RequestBody myRequest = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("cake", String.valueOf(cakeIsOn))
-                .addFormDataPart("soup", String.valueOf(soupIsOn))
-                .addFormDataPart("crepe", String.valueOf(crepeIsOn))
-                .build();
 
-        Request request = new Request.Builder()
-                .url("http://hansiv4.ddns.net:3000/")
-                .post(myRequest)
-                .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-            Headers responseHeaders = response.headers();
-            for (int i = 0; i < responseHeaders.size(); i++) {
-                System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+        String url = "http://hansiv4.ddns.net:3000/";
+        Log.i("DIM",url);
+
+
+        Map<String, String> postParam= new HashMap<String, String>();
+        postParam.put("userId", userId);
+        postParam.put("cake" , String.valueOf(cakeIsOn));
+        postParam.put("soup" , String.valueOf(soupIsOn));
+        postParam.put("crepe" , String.valueOf(crepeIsOn));
+
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(com.android.volley.Request.Method.PUT,
+                Const.YOUR_URL, new JSONObject(postParam),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                        msgResponse.setText(response.toString());
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
             }
 
-
-        //String url = "http://hansiv4.ddns.net:3000/user/"+name.getText()+"/"+password.getText();
-        //Log.i("DIM",url);
-
-        /*JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
                     @Override
@@ -96,6 +117,6 @@ public class preferences extends AppCompatActivity {
                     }
                 });
 
-        queue.add(jsonObjectRequest);*/
+        queue.add(jsonObjectRequest);
     }
 }

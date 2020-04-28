@@ -105,9 +105,13 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case EditorInfo.IME_ACTION_NEXT:
                         Log.i("DIN", "Action next");
+                        CallLogin();
+
                         break;
                     case EditorInfo.IME_ACTION_PREVIOUS:
                         Log.i("DIN", "Action previous");
+                        CallLogin();
+
                         break;
                 }
                 return false;
