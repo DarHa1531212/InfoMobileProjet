@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Lying Cake</string>
+    <string name="preferences">Preferences</string>
+    <string name="crepe">Crepe</string>
+    <string name="cake">Cake</string>
+    <string name="soup">Soup</string>
+    <string name="update">Update</string>
 </resources>
