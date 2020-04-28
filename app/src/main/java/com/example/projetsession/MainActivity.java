@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                                 String message = response.getString("userId");
                                 intent.putExtra("userId", message);
                                 MainActivity.this.startActivity(intent);
+                                finish();
                             }
                         } catch(Exception e) {
                             e.printStackTrace();

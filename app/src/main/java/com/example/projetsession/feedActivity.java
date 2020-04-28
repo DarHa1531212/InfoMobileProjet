@@ -7,8 +7,15 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,7 +31,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class feedActivity extends Activity {
+public class feedActivity extends AppCompatActivity {
 
     CustomRecipeAdapter adapter;
     String userId;
@@ -32,6 +39,7 @@ public class feedActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.recipe_list);
 
         Intent intent = getIntent();
@@ -42,14 +50,43 @@ public class feedActivity extends Activity {
         getRecipes(adapter);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.recipe_feed_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.settings) {
+            Intent intent = new Intent(feedActivity.this, preferences.class);
+            intent.putExtra("userId", userId);
+            startActivity(intent);
+            return true;
+        }
+        return false;
+    }
+
+
     private CustomRecipeAdapter setListAdapter() {
         ArrayList<Recipe> arrayOfRecipe = new ArrayList<Recipe>();
 
-        CustomRecipeAdapter adapter = new CustomRecipeAdapter(this, arrayOfRecipe);
+        final CustomRecipeAdapter adapter = new CustomRecipeAdapter(this, arrayOfRecipe);
 
         ListView listView = (ListView) findViewById(R.id.recipeList);
 
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO
+                Intent intent = new Intent(feedActivity.this, recipeActivity.class);
+                intent.putExtra("recipeId", adapter.getItem(position).getId());
+                startActivity(intent);
+            }
+        });
 
         return adapter;
     }
@@ -70,6 +107,7 @@ public class feedActivity extends Activity {
 
                         String title = recipe.getString("nomRecette");
                         String description = recipe.getString("txtRecette");
+                        String id = recipe.getString("idRecette");
                         try {
                             String encodedImage = recipe.getString("image");
                             byte[] decodedBytes = Base64.decode(encodedImage, Base64.DEFAULT);
@@ -80,6 +118,7 @@ public class feedActivity extends Activity {
                         }
                         tempRecipe.setTitle(title);
                         tempRecipe.setDescription(description);
+                        tempRecipe.setId((id));
 
                         recipes.add(tempRecipe);
                     }
