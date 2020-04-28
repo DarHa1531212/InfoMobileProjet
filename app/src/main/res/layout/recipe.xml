@@ -12,7 +12,7 @@
         <ImageView
             android:id="@+id/singleRecipeImage"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="280dp"
             android:paddingTop="10dp"/>
 
         <TextView
