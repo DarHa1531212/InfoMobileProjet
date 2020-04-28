@@ -26,6 +26,7 @@ import java.util.Map;
 public class preferences extends AppCompatActivity {
 
     String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +42,7 @@ public class preferences extends AppCompatActivity {
 
 
         String url = "http://hansiv4.ddns.net:3000/updateUser/" + userId;
-        Log.i("DIM",url);
+        Log.i("DIM", url);
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -71,9 +72,8 @@ public class preferences extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.v("DIM", response.toString());
-                        try{
-
-                        }catch (Exception e) {
+                        try {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -85,6 +85,5 @@ public class preferences extends AppCompatActivity {
         });
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(jsonObjReq);
-
     }
 }
