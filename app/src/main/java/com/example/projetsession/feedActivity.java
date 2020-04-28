@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -63,6 +64,9 @@ public class feedActivity extends AppCompatActivity {
             Intent intent = new Intent(feedActivity.this, preferences.class);
             intent.putExtra("userId", userId);
             startActivity(intent);
+            return true;
+        } else if(item.getItemId() == R.id.refresh) {
+            refresh();
             return true;
         }
         return false;
@@ -139,7 +143,7 @@ public class feedActivity extends AppCompatActivity {
     }
 
 
-    public void refresh(View view) {
+    public void refresh() {
         getRecipes(adapter);
     }
 }
