@@ -76,7 +76,9 @@ public class preferences extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }
-        }) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -113,5 +115,5 @@ public class preferences extends AppCompatActivity {
                 });
 
         queue.add(jsonObjectRequest);*/
+
     }
-}
