@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".preferences">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="51dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        tools:layout_editor_absoluteX="152dp"
+        tools:layout_editor_absoluteY="597dp" />
+
+    <CheckBox
+        android:id="@+id/cake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cake"
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="154dp" />
+
+    <CheckBox
+        android:id="@+id/soup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Soup"
+        tools:layout_editor_absoluteX="164dp"
+        tools:layout_editor_absoluteY="226dp" />
+
+    <CheckBox
+        android:id="@+id/crepe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Crepe"
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="321dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
