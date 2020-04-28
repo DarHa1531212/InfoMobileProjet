@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -33,12 +34,14 @@ public class preferences extends AppCompatActivity {
 
     }
 
-    private void updateProfile(){
-        Log.i("testing", "success");
-    }
 
-    private void updatePreferences() {
-        RequestQueue queue = Volley.newRequestQueue(this);
+    private void updatePreferences(View v) {
+
+
+        String url = "http://hansiv4.ddns.net:3000/";
+        Log.i("DIM",url);
+
+        /*RequestQueue queue = Volley.newRequestQueue(this);
 
         CheckBox cake = findViewById(R.id.cake);
         CheckBox soup = findViewById(R.id.soup);
@@ -49,9 +52,6 @@ public class preferences extends AppCompatActivity {
         boolean crepeIsOn = crepe.isChecked();
 
 
-
-        String url = "http://hansiv4.ddns.net:3000/";
-        Log.i("DIM",url);
 
 
         Map<String, String> postParam= new HashMap<String, String>();
@@ -112,6 +112,6 @@ public class preferences extends AppCompatActivity {
                     }
                 });
 
-        queue.add(jsonObjectRequest);
+        queue.add(jsonObjectRequest);*/
     }
 }
