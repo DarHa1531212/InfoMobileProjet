@@ -9,12 +9,14 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -35,13 +37,13 @@ public class preferences extends AppCompatActivity {
     }
 
 
-    private void updatePreferences(View v) {
+    public void updatePreferences(View v) {
 
 
-        String url = "http://hansiv4.ddns.net:3000/";
+        String url = "http://hansiv4.ddns.net:3000/updateUser/" + userId;
         Log.i("DIM",url);
 
-        /*RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this);
 
         CheckBox cake = findViewById(R.id.cake);
         CheckBox soup = findViewById(R.id.soup);
@@ -52,66 +54,37 @@ public class preferences extends AppCompatActivity {
         boolean crepeIsOn = crepe.isChecked();
 
 
+        JSONObject postParam = new JSONObject();
+        try {
+            postParam.put("userId", userId);
+            postParam.put("cake", cakeIsOn);
+            postParam.put("soup", soupIsOn);
+            postParam.put("crepe", crepeIsOn);
+        } catch (JSONException err) {
+            err.printStackTrace();
+        }
 
-
-        Map<String, String> postParam= new HashMap<String, String>();
-        postParam.put("userId", userId);
-        postParam.put("cake" , String.valueOf(cakeIsOn));
-        postParam.put("soup" , String.valueOf(soupIsOn));
-        postParam.put("crepe" , String.valueOf(crepeIsOn));
-
-
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(com.android.volley.Request.Method.PUT,
-                Const.YOUR_URL, new JSONObject(postParam),
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.PUT,
+                url,
+                postParam,
                 new Response.Listener<JSONObject>() {
-
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-                        msgResponse.setText(response.toString());
-                    }
-                }, new Response.ErrorListener() {
+                        Log.v("DIM", response.toString());
+                        try{
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json; charset=utf-8");
-                return headers;
-            }
-
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            Log.i("DIM", "Response: " + response.toString());
-                            if (response.getBoolean("loggedIn")){
-                                Intent intent = new Intent(MainActivity.this, feedActivity.class);
-
-                                String message = response.getString("userId");
-                                intent.putExtra("userId", message);
-                                MainActivity.this.startActivity(intent);
-                            }
-                        } catch(Exception e) {
+                        }catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("error", error.toString());
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(jsonObjReq);
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                        Log.i("ERROR", error.toString());
-                    }
-                });
-
-        queue.add(jsonObjectRequest);*/
     }
 }
